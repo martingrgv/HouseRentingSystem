@@ -1,10 +1,12 @@
 ﻿using HouseRentingSystem.Infrastructure.Data.Configurations;
 using HouseRentingSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HouseRentingSystem.Infrastructure.Data;
 
-public class HouseRentingSystemDbContext : DbContext
+public class HouseRentingSystemDbContext : IdentityDbContext
 {
     public HouseRentingSystemDbContext() { }
 
