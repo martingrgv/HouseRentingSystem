@@ -4,6 +4,7 @@ using HouseRentingSystem.Models;
 using HouseRentingSystem.Core.Models.Home;
 using HouseRentingSystem.Core.Services.House;
 using HouseRentingSystem.Core.Contracts.House;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HouseRentingSystem.Controllers;
 
@@ -15,12 +16,14 @@ public class HomeController : BaseController
         houseService = _houseService;
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
         var model = await houseService.LastThreeHouses();
         return View(model);
     }
 
+    [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
