@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using HouseRentingSystem.Core.Models.House;
 using HouseRentingSystem.Core.Contracts.House;
 using HouseRentingSystem.Core.Contracts.Agent;
-using HouseRentingSystem.Core.Services.Agent;
 using System.Security.Claims;
+using static HouseRentingSystem.Core.Constants.MessageConstants;
 
 namespace HouseRentingSystem.Controllers
 {
@@ -55,9 +55,28 @@ namespace HouseRentingSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(HouseFormModel model)
+        public async Task<IActionResult> Add(HouseFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            if (!await agentService.ExistsByIdAsync(User.Id()))
+            {
+                return RedirectToAction(nameof(AgentController.Become), "Agent");
+            }
+
+            if (!await houseService.CategoryExistsAsync(model.CategoryId))
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), CategoryNotExistingMessage);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.Categories = await houseService.AllHouseCategoriesAsync();
+                return View(model);
+            }
+
+            int agentId = (int) await agentService.GetAgentByIdAsync(User.Id());
+            int houseId = await houseService.CreateAsync(model, agentId);
+
+            return RedirectToAction(nameof(Details), new { id = houseId });
         }
 
         public IActionResult Edit(int id)

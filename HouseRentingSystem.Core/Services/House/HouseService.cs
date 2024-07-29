@@ -26,6 +26,31 @@ public class HouseService : IHouseService
             .ToListAsync();
     }
 
+    public async Task<bool> CategoryExistsAsync(int categoryId)
+    {
+        return await repository.AllReadOnly<Category>()
+            .AnyAsync(c => c.Id == categoryId);
+    }
+
+    public async Task<int> CreateAsync(HouseFormModel model, int agentId)
+    {
+        var house = new Infrastructure.Data.Models.House
+        {
+            Title = model.Title,
+            Address = model.Address,
+            Description = model.Description,
+            ImageUrl = model.ImageUrl,
+            PricePerMonth = model.PricePerMonth,
+            CategoryId = model.CategoryId,
+            AgentId = agentId,
+        };
+
+        await repository.AddAsync(house);
+        await repository.SaveChangesAsync();
+
+        return house.Id;
+    }
+
     public async Task<IEnumerable<HouseIndexServiceModel>> LastThreeHousesAsync()
     {
         return await repository
