@@ -9,7 +9,7 @@ namespace HouseRentingSystem.Core.Models.Agent
         [Required(ErrorMessage = RequiredMessage)]
         [StringLength(AgentPhoneNumberMaxLength, MinimumLength = AgentPhoneNumberMinLength, ErrorMessage = LengthMessage)]
         [Display(Name = "Phone number")]
-        [Phone(ErrorMessage = PhoneErrorMessage)]
+        [Phone(ErrorMessage = InvalidPhoneMessage)]
         public string PhoneNumber { get; set; } = null!;
     }
 }
