@@ -7,7 +7,7 @@ using HouseRentingSystem.Core.Contracts.House;
 
 namespace HouseRentingSystem.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly IHouseService houseService;
     public HomeController(IHouseService _houseService)
