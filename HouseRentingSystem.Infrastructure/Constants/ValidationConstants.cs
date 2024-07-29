@@ -10,6 +10,7 @@
         public const string HousePricePerMonthMinRange = "0.00";
         public const string HousePricePerMonthMaxRange = "2000.00";
 
+        public const int AgentPhoneNumberMinLength = 7;
         public const int AgentPhoneNumberMaxLength = 15;
     }
 }

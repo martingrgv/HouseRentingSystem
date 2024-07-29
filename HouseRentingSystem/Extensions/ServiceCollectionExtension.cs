@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 ﻿using HouseRentingSystem.Infrastructure.Data;
+=======
+﻿using HouseRentingSystem.Core.Contracts.Agent;
+using HouseRentingSystem.Core.Contracts.House;
+using HouseRentingSystem.Core.Services.Agent;
+using HouseRentingSystem.Core.Services.House;
+using HouseRentingSystem.Infrastructure.Common;
+using HouseRentingSystem.Infrastructure.Data;
+>>>>>>> 2c82bff436796642161bc3d0048e9bd00c5ac8e0
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +17,12 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddServiceCollection(this IServiceCollection services)
     {
+<<<<<<< HEAD
+=======
+        services.AddScoped<IHouseService, HouseService>();
+        services.AddScoped<IAgentService, AgentService>();
+
+>>>>>>> 2c82bff436796642161bc3d0048e9bd00c5ac8e0
         return services;
     }
 
@@ -16,6 +31,8 @@ public static class ServiceCollectionExtension
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<HouseRentingSystemDbContext>(options =>
             options.UseSqlServer(connectionString));
+
+        services.AddScoped<IRepository, Repository>();
 
         services.AddDatabaseDeveloperPageExceptionFilter();
 
