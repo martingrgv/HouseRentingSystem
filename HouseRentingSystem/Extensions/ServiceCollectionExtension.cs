@@ -1,4 +1,6 @@
-﻿using HouseRentingSystem.Infrastructure.Common;
+﻿using HouseRentingSystem.Core.Contracts.House;
+using HouseRentingSystem.Core.Services.House;
+using HouseRentingSystem.Infrastructure.Common;
 using HouseRentingSystem.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,8 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddServiceCollection(this IServiceCollection services)
     {
+        services.AddScoped<IHouseService, HouseService>();
+
         return services;
     }
 
