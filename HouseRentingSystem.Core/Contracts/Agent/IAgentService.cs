@@ -2,5 +2,6 @@
 {
     public interface IAgentService
     {
+        Task<bool> ExistsById(string userId);
     }
 }
