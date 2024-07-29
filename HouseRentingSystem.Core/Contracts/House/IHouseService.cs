@@ -1,11 +1,19 @@
-﻿using HouseRentingSystem.Core.Models.House;
+﻿using HouseRentingSystem.Core.Models.Enums;
+using HouseRentingSystem.Core.Models.House;
 
 namespace HouseRentingSystem.Core.Contracts.House;
 
 public interface IHouseService
 {
-    public Task<IEnumerable<HouseIndexServiceModel>> LastThreeHousesAsync();
-    public Task<IEnumerable<HouseCategoryServiceModel>> AllHouseCategoriesAsync();
-    public Task<bool> CategoryExistsAsync(int categoryId);
-    public Task<int> CreateAsync(HouseFormModel model, int agentId);
+    Task<IEnumerable<HouseIndexServiceModel>> LastThreeHousesAsync();
+    Task<IEnumerable<HouseCategoryServiceModel>> AllHouseCategoriesAsync();
+    Task<bool> CategoryExistsAsync(int categoryId);
+    Task<int> CreateAsync(HouseFormModel model, int agentId);
+    Task<HouseQueryServiceModel> AllAsync(
+       string? category = null,
+       string? search = null,
+       HouseSorting sorting = HouseSorting.Newest,
+       int currentPage = 1,
+       int housesPerPage = 1);
+    Task<IEnumerable<string>> AllCategoriesNamesAsync();
 }

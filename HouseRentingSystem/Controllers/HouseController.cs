@@ -22,10 +22,9 @@ namespace HouseRentingSystem.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult All()
+        public async Task<IActionResult> All([FromQuery]AllHousesQueryModel query)
         {
-            var model = new AllHousesQueryModel();
-            return View(model);
+            return View(query);
         }
 
         public IActionResult Mine()
