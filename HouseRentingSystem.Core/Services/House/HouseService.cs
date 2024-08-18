@@ -4,6 +4,7 @@ using HouseRentingSystem.Core.Models.House;
 using HouseRentingSystem.Infrastructure.Common;
 using HouseRentingSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace HouseRentingSystem.Core.Services.House;
 
@@ -84,6 +85,26 @@ public class HouseService : IHouseService
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByAgentId(int? agentId)
+    {
+        var houses = await repository
+            .AllReadOnly<Infrastructure.Data.Models.House>()
+            .Where(h => h.AgentId == agentId)
+            .ToListAsync();
+
+        return ProjectToModel(houses);
+    }
+
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByUserId(string userId)
+    {
+        var houses = await repository
+            .AllReadOnly<Infrastructure.Data.Models.House>()
+            .Where(h => h.RenterId == userId)
+            .ToListAsync();
+
+        return ProjectToModel(houses);
+    }
+
     public async Task<bool> CategoryExistsAsync(int categoryId)
     {
         return await repository.AllReadOnly<Category>()
@@ -122,5 +143,22 @@ public class HouseService : IHouseService
                 ImageUrl = h.ImageUrl
             })
             .ToListAsync();
+    }
+
+    private List<HouseServiceModel> ProjectToModel(List<Infrastructure.Data.Models.House> houses)
+    {
+        var result = houses
+            .Select(h => new HouseServiceModel
+            {
+                Id = h.Id,
+                Title = h.Title,
+                Address = h.Address,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                IsRented = h.RenterId != null
+            })
+            .ToList();
+
+        return result;
     }
 }

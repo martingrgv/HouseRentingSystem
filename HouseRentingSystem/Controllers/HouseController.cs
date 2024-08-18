@@ -41,10 +41,21 @@ namespace HouseRentingSystem.Controllers
             return View(query);
         }
 
-        public IActionResult Mine()
+        public async Task<IActionResult> Mine()
         {
-            var model = new AllHousesQueryModel();
-            return View(model);
+            IEnumerable<HouseServiceModel> myHouses = null!;
+
+            if (await agentService.ExistsByIdAsync(User.Id()))
+            {
+                var currentAgentId = await agentService.GetAgentByIdAsync(User.Id());
+                myHouses = await houseService.AllHousesByAgentId(currentAgentId);
+            }
+            else
+            {
+                myHouses = await houseService.AllHousesByUserId(User.Id());
+            }
+
+            return View(myHouses);
         }
 
         public IActionResult Details(int id)
