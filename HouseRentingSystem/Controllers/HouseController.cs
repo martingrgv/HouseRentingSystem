@@ -5,6 +5,7 @@ using HouseRentingSystem.Core.Contracts.House;
 using HouseRentingSystem.Core.Contracts.Agent;
 using System.Security.Claims;
 using static HouseRentingSystem.Core.Constants.MessageConstants;
+using Microsoft.AspNetCore.Identity;
 
 namespace HouseRentingSystem.Controllers
 {
@@ -12,7 +13,7 @@ namespace HouseRentingSystem.Controllers
     {
         private readonly IHouseService houseService;
         private readonly IAgentService agentService;
-        
+
         public HouseController(
             IHouseService _houseService,
             IAgentService _agentService)
@@ -58,9 +59,14 @@ namespace HouseRentingSystem.Controllers
             return View(myHouses);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var model = new HouseDetailsViewModel();
+            if (!await houseService.ExistsAsync(id))
+            {
+                return BadRequest();
+            }
+
+            var model = await houseService.HouseDetailsByIdAsync(id);
             return View(model);
         }
 

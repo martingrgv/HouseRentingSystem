@@ -18,4 +18,6 @@ public interface IHouseService
     Task<IEnumerable<string>> AllCategoriesNamesAsync();
     Task<IEnumerable<HouseServiceModel>> AllHousesByAgentId(int? agentId);
     Task<IEnumerable<HouseServiceModel>> AllHousesByUserId(string userId);
+    Task<bool> ExistsAsync(int id);
+    Task<HouseDetailsViewModel?> HouseDetailsByIdAsync(int id);
  }
