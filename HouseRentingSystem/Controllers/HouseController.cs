@@ -6,6 +6,7 @@ using HouseRentingSystem.Core.Contracts.Agent;
 using System.Security.Claims;
 using static HouseRentingSystem.Core.Constants.MessageConstants;
 using Microsoft.AspNetCore.Identity;
+using HouseRentingSystem.Core;
 
 namespace HouseRentingSystem.Controllers
 {
@@ -109,16 +110,64 @@ namespace HouseRentingSystem.Controllers
             return RedirectToAction(nameof(Details), new { id = houseId });
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var model = new HouseFormModel();
+            if (!await houseService.ExistsAsync(id))
+            {
+                return BadRequest();
+            }
+
+            if (!await houseService.HasAgentWithId(id, User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            var house = await houseService.HouseDetailsByIdAsync(id);
+            var houseCategoryId = await houseService.GetHouseCategoryId(id);
+
+            var categories = await houseService.AllCategoriesAsync();
+
+            var model = new HouseFormModel
+            {
+                Title = house.Title,
+                Address = house.Title,
+                Description = house.Description,
+                ImageUrl = house.ImageUrl,
+                PricePerMonth = house.PricePerMonth,
+                CategoryId = houseCategoryId,
+                Categories = categories
+            };
+
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, HouseFormModel house)
+        public async Task<IActionResult> Edit(int id, HouseFormModel house)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            if (!await houseService.ExistsAsync(id))
+            {
+                return BadRequest();
+            }
+
+            if (!await houseService.HasAgentWithId(id, User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            if (!await houseService.CategoryExistsAsync(house.CategoryId))
+            {
+                ModelState.AddModelError(nameof(house.CategoryId), 
+                    "Category doesn't exist!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(house);
+            }
+
+            await houseService.Edit(id, house.Title, house.Address, house.Description, house.ImageUrl, house.PricePerMonth, house.CategoryId);
+
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         public IActionResult Delete(int id)
