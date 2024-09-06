@@ -141,6 +141,17 @@ public class HouseService : IHouseService
         return house.Id;
     }
 
+    public async Task DeleteAsync(int houseId)
+    {
+        var house = await GetHouseById(houseId);
+
+        if (house != null)
+        {
+            await repository.RemoveAsync(house);
+            await repository.SaveChangesAsync();
+        }
+    }
+
     public async Task Edit(int houseId, string title, string address, string description, string imageUrl, decimal price, int categoryId)
     {
         var house = await repository
@@ -222,6 +233,12 @@ public class HouseService : IHouseService
                 ImageUrl = h.ImageUrl
             })
             .ToListAsync();
+    }
+
+    private async Task<Infrastructure.Data.Models.House?> GetHouseById(int houseId)
+    {
+        return await repository.All<Infrastructure.Data.Models.House>()
+            .FirstOrDefaultAsync(h => h.Id == houseId);
     }
 
     private List<HouseServiceModel> ProjectToModel(List<Infrastructure.Data.Models.House> houses)
