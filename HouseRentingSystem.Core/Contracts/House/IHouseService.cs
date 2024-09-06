@@ -25,4 +25,7 @@ public interface IHouseService
     Task<int> GetHouseCategoryId(int houseId);
     Task Edit(int houseId, string title, string address, string description, string imageUrl, decimal price, int categoryId);
     Task DeleteAsync(int houseId);
+    Task<bool> IsRented(int houseId);
+    Task<bool> IsRentedWithUserWithId(int houseId, string userId);
+    Task Rent(int houseId, string userId);
  }
