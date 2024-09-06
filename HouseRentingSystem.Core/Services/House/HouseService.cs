@@ -253,6 +253,19 @@ public class HouseService : IHouseService
             .ToListAsync();
     }
 
+    public async Task LeaveAsync(int houseId, string userId)
+    {
+        var house = await repository
+            .All<Infrastructure.Data.Models.House>()
+            .FirstOrDefaultAsync(h => h.Id == houseId);
+
+        if (house != null)
+        {
+            house.RenterId = null;
+            await repository.SaveChangesAsync();
+        }
+    }
+
     public async Task Rent(int houseId, string userId)
     {
         var house = await repository

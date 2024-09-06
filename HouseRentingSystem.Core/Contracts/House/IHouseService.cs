@@ -28,4 +28,5 @@ public interface IHouseService
     Task<bool> IsRented(int houseId);
     Task<bool> IsRentedWithUserWithId(int houseId, string userId);
     Task Rent(int houseId, string userId);
+    Task LeaveAsync(int houseId, string userId);
  }
