@@ -1,15 +1,13 @@
-<<<<<<< HEAD
 ﻿using HouseRentingSystem.Infrastructure.Data;
-=======
 ﻿using HouseRentingSystem.Core.Contracts.Agent;
 using HouseRentingSystem.Core.Contracts.House;
 using HouseRentingSystem.Core.Services.Agent;
 using HouseRentingSystem.Core.Services.House;
 using HouseRentingSystem.Infrastructure.Common;
-using HouseRentingSystem.Infrastructure.Data;
->>>>>>> 2c82bff436796642161bc3d0048e9bd00c5ac8e0
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using HouseRentingSystem.Core.Contracts.Api;
+using HouseRentingSystem.Core.Services.Api;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -17,12 +15,10 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddServiceCollection(this IServiceCollection services)
     {
-<<<<<<< HEAD
-=======
         services.AddScoped<IHouseService, HouseService>();
         services.AddScoped<IAgentService, AgentService>();
+        services.AddScoped<IStatisticService, StatisticService>();
 
->>>>>>> 2c82bff436796642161bc3d0048e9bd00c5ac8e0
         return services;
     }
 
