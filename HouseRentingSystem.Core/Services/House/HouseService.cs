@@ -248,7 +248,8 @@ public class HouseService : IHouseService
             {
                 Id = h.Id,
                 Title = h.Title,
-                ImageUrl = h.ImageUrl
+                ImageUrl = h.ImageUrl,
+                Address = h.Address
             })
             .ToListAsync();
     }

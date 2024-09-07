@@ -7,6 +7,7 @@ using System.Security.Claims;
 using static HouseRentingSystem.Core.Constants.MessageConstants;
 using Microsoft.AspNetCore.Identity;
 using HouseRentingSystem.Core;
+using HouseRentingSystem.Infrastructure.Extensions;
 
 namespace HouseRentingSystem.Controllers
 {
@@ -60,7 +61,7 @@ namespace HouseRentingSystem.Controllers
             return View(myHouses);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, string information)
         {
             if (!await houseService.ExistsAsync(id))
             {
@@ -107,7 +108,7 @@ namespace HouseRentingSystem.Controllers
             int agentId = (int) await agentService.GetAgentByIdAsync(User.Id());
             int houseId = await houseService.CreateAsync(model, agentId);
 
-            return RedirectToAction(nameof(Details), new { id = houseId });
+            return RedirectToAction(nameof(Details), new { id = houseId, information = model.GetInformation() });
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -167,7 +168,7 @@ namespace HouseRentingSystem.Controllers
 
             await houseService.Edit(id, house.Title, house.Address, house.Description, house.ImageUrl, house.PricePerMonth, house.CategoryId);
 
-            return RedirectToAction(nameof(Details), new { id = id });
+            return RedirectToAction(nameof(Details), new { id = id, information = house.GetInformation()});
         }
 
         public async Task<IActionResult> Delete(int id)
