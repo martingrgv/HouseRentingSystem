@@ -34,8 +34,14 @@ public class Repository : IRepository
         await DbSet<T>().AddAsync(entity);
     }
 
+
     public async Task<int> SaveChangesAsync()
     {
-        return await context.SaveChangesAsync();
+        return await context.SaveChangesAsync();    }
+
+    public Task RemoveAsync<T>(T entity) where T : class
+    {
+        DbSet<T>().Remove(entity);
+        return Task.CompletedTask;
     }
 }
