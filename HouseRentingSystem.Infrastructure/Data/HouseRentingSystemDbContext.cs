@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseRentingSystem.Infrastructure.Data;
 
-public class HouseRentingSystemDbContext : IdentityDbContext
+public class HouseRentingSystemDbContext : IdentityDbContext<ApplicationUser>
 {
     public HouseRentingSystemDbContext() { }
 
@@ -15,6 +15,9 @@ public class HouseRentingSystemDbContext : IdentityDbContext
     public DbSet<House> Houses { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Agent> Agents { get; set; } = null!;
+    
+    private ApplicationUser AgentUser { get; set; } = null!;
+    private ApplicationUser GuestUser { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
