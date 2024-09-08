@@ -1,4 +1,6 @@
 ﻿@model HouseDetailsViewModel
+@inject IAgentService agentService
+@inject IHouseService houseService
 
 @{
     ViewBag.Title = "House Details";
@@ -27,23 +29,27 @@
             <div class="form-inline">
                 @if (this.User.Identity!.IsAuthenticated)
                 {
+                    @if (await houseService.HasAgentWithId(Model.Id, User.Id()))
+                    {
                         <a class="btn btn-warning" asp-controller="House" asp-action="Edit"
                            asp-route-id="@Model.Id">Edit</a>
                         <a class="ml-2 btn btn-danger" asp-controller="House" asp-action="Delete"
                            asp-route-id="@Model.Id">Delete</a>
-                    @if (!Model.IsRented)
-                    {
-                                <form class="ml-2" asp-controller="House"
-                                      asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                                    <input class="btn btn-primary" type="submit" value="Rent" />
-                                </form>
                     }
-                    else
+
+                    @if (!Model.IsRented && await agentService.ExistsByIdAsync(User.Id()) == false)
                     {
-                                <form class="ml-2" asp-controller="House" asp-action="Leave"
-                                      asp-route-id="@Model.Id" method="post">
-                                    <input class="btn btn-primary" type="submit" value="Leave" />
-                                </form>
+                        <form class="ml-2" asp-controller="House"
+                                asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-primary" type="submit" value="Rent" />
+                        </form>
+                    }
+                    else if (await houseService.IsRentedWithUserWithId(Model.Id, User.Id()))
+                    {
+                        <form class="ml-2" asp-controller="House" asp-action="Leave"
+                                asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-primary" type="submit" value="Leave" />
+                        </form>
                     }
                 }
             </div>
