@@ -20,7 +20,7 @@
         // User
         public const int UserFirstNameMinLength = 2;
         public const int UserFirstNameMaxLength = 12;
-        public const int UserLasttNameMinLength = 2;
+        public const int UserLastNameMinLength = 2;
         public const int UserLastNameMaxLength = 20;
     }
 }
