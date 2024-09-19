@@ -214,6 +214,8 @@ public class HouseService : IHouseService
                 Category = h.Category.Name,
                 Agent = new Models.Agent.AgentServiceModel
                 {
+                    FullName = $"{h.Agent.User.FirstName} {h.Agent.User.LastName}",
+                    Email = h.Agent.User.Email,
                     PhoneNumber = h.Agent.PhoneNumber
                 }
             })
