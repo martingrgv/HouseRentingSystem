@@ -1,8 +1,6 @@
 using HouseRentingSystem.ModelBinders;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using HouseRentingSystem.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +36,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.SeedAdmin();
 
 app.UseEndpoints(endPoints => 
 {
