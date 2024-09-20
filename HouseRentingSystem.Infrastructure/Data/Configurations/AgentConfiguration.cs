@@ -10,7 +10,7 @@ namespace HouseRentingSystem.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Agent> builder)
         {
             DataSeeder seeder = new DataSeeder();
-            builder.HasData(new Agent[] { seeder.Agent });
+            builder.HasData(new Agent[] { seeder.Agent, seeder.AdminAgent });
         }
     }
 }

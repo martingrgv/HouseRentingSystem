@@ -18,6 +18,8 @@ public class HouseRentingSystemDbContext : IdentityDbContext<ApplicationUser>
     
     private ApplicationUser AgentUser { get; set; } = null!;
     private ApplicationUser GuestUser { get; set; } = null!;
+    private ApplicationUser AdminUser { get; set; } = null!;
+    private Agent AdminAgent { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

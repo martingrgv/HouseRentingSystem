@@ -11,7 +11,7 @@ namespace HouseRentingSystem.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             DataSeeder seeder = new DataSeeder();
-            builder.HasData(new ApplicationUser[] { seeder.AgentUser, seeder.GuestUser });
+            builder.HasData(new ApplicationUser[] { seeder.AgentUser, seeder.GuestUser, seeder.AdminUser});
         }
     }
 }
